@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WALL MANTRA x AICANFEEL | Carving Pathways</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* --- THEME: HOLOGRAPHIC TIMBER (Luxury Organic AI) --- */
+        :root {
+            --bg-void: #020202; 
+            --wood-deep: #1a120b;
+            --wood-polish: #3e2723;
+            --gold-luxury: #D4AF37;
+            --ai-phosphor: #00FF9D;
+        }
+
+        body {
+            background-color: var(--bg-void);
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        h1, h2, h3, .serif-font { font-family: 'Playfair Display', serif; }
+        .tech-font { font-family: 'Space Mono', monospace; letter-spacing: -0.05em; }
+
+        /* --- 1. THE REACTIVE NEURO-TREE CANVAS --- */
+        #neuro-tree {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- 2. TEXT READABILITY CONTAINERS --- */
+        .text-vignette {
+            background: radial-gradient(circle at center, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+            padding: 3rem;
+            border-radius: 2rem;
+            backdrop-filter: blur(3px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 0 60px rgba(0,0,0,0.6);
+        }
+
+        /* --- 3. LUXURY UI: WOOD & GLASS --- */
+        .wood-glass-card {
+            background: linear-gradient(145deg, rgba(20, 15, 10, 0.9), rgba(5, 5, 5, 0.95));
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-bottom: 2px solid var(--gold-luxury);
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .wood-glass-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            border-color: var(--ai-phosphor);
+            box-shadow: 0 20px 50px -10px rgba(0, 255, 157, 0.1);
+        }
+
+        .wood-glass-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 40%, rgba(212, 175, 55, 0.02) 50%, transparent 60%);
+            background-size: 100% 200%;
+            animation: scan 3s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 0% 200%; }
+        }
+
+        /* --- 4. BUTTONS --- */
+        .btn-luxury {
+            position: relative;
+            background: #110c0a;
+            color: var(--gold-luxury);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            overflow: hidden;
+            transition: all 0.4s ease;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        .btn-luxury::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-luxury:hover {
+            border-color: var(--ai-phosphor);
+            color: var(--ai-phosphor);
+            box-shadow: 0 0 30px rgba(0, 255, 157, 0.15);
+            background: #0a1f15;
+        }
+        .btn-luxury:hover::before { left: 100%; }
+
+        /* Button Energize Animation */
+        @keyframes energizePulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 rgba(0, 255, 157, 0); border-color: rgba(212, 175, 55, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 0 50px rgba(0, 255, 157, 0.8), 0 0 100px rgba(0, 255, 157, 0.4); border-color: #00FF9D; background: #0a2a1a; color: #fff; }
+            100% { transform: scale(1); box-shadow: 0 0 0 rgba(0, 255, 157, 0); }
+        }
+
+        .btn-luxury.energizing {
+            animation: energizePulse 0.8s ease-out forwards;
+        }
+
+        /* --- 5. UTILS --- */
+        .text-glow-gold { text-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        .text-glow-ai { text-shadow: 0 0 20px rgba(0, 255, 157, 0.4); }
+
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal-up.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="selection:bg-amber-900 selection:text-white">
+
+    <!-- THE HERO: Interactive Neuro-Tree -->
+    <canvas id="neuro-tree"></canvas>
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 top-0 left-0 p-6 pointer-events-none">
+        <div class="flex items-center gap-4 group pointer-events-auto inline-flex bg-black/40 backdrop-blur-md p-2 rounded-full border border-white/10 pr-8">
+            <div class="w-10 h-10 border border-amber-500/30 flex items-center justify-center relative overflow-hidden bg-black rounded-full">
+                <div class="absolute inset-0 bg-gradient-to-tr from-amber-900/40 to-transparent"></div>
+                <i data-lucide="network" class="w-5 h-5 text-amber-500 relative z-10"></i>
+            </div>
+            <div class="flex flex-col">
+                <span class="serif-font text-lg text-stone-200 tracking-wide leading-none">WALL MANTRA <span class="text-amber-500">x</span> AICANFEEL</span>
+                <span class="tech-font text-green-500 text-[10px] uppercase tracking-[0.25em] mt-1">Carving Pathways</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 relative" id="DNA">
+        
+        <!-- Text Vignette for Readability -->
+        <div class="max-w-5xl relative z-10 text-vignette reveal-up">
+            
+            <div class="flex items-center justify-center gap-3 mb-8">
+                <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#00ff9d]"></span>
+                <span class="tech-font text-green-500 text-xs uppercase tracking-[0.3em]">System Status: Organic</span>
+            </div>
+            
+            <h1 class="text-6xl md:text-9xl font-medium leading-[0.95] mb-12 text-white">
+                <span class="serif-font block text-amber-500 text-glow-gold">Crafted Wood.</span>
+                <span class="serif-font block italic text-green-400 text-glow-ai opacity-90">Digital Soul.</span>
+            </h1>
+            
+            <p class="text-stone-300 text-lg md:text-xl max-w-2xl mx-auto mb-16 tech-font tracking-tight font-light leading-relaxed">
+                We fuse luxury craftsmanship with neural networks. Planting deep data roots to grow automated revenue canopies.
+            </p>
+
+            <div class="flex justify-center gap-8">
+                <button onclick="touchTheCore(this)" class="btn-luxury px-12 py-5 text-sm uppercase tracking-widest font-bold shadow-2xl rounded-sm">
+                    Touch The Core
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE ROOT SYSTEM (Process) -->
+    <section id="Growth" class="py-40 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <div class="flex items-end justify-between mb-24 border-b border-white/10 pb-8 reveal-up text-vignette p-8">
+                <div>
+                    <h2 class="text-5xl serif-font text-white mb-2">The Process Root</h2>
+                    <p class="tech-font text-amber-600 text-xs uppercase tracking-widest">Execution Sequence</p>
+                </div>
+                <div class="hidden md:block text-right">
+                    <div class="text-4xl tech-font text-white/10">01</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="wood-glass-card p-12 group reveal-up" style="transition-delay: 100ms;">
+                    <div class="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 transition-opacity">
+                        <i data-lucide="fingerprint" class="w-10 h-10 text-amber-500"></i>
+                    </div>
+                    <h3 class="text-2xl serif-font mb-4 text-white group-hover:text-amber-400 transition-colors">Identity Audit</h3>
+                    <p class="text-stone-400 text-sm font-light leading-relaxed mb-8">
+                        Mapping your brand grain. We identify customer touchpoints like rings in an ancient oak.
+                    </p>
+                    <div class="w-full h-px bg-white/10 group-hover:bg-amber-500/50 transition-colors"></div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="wood-glass-card p-12 group reveal-up" style="transition-delay: 200ms;">
+                    <div class="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 transition-opacity">
+                        <i data-lucide="box" class="w-10 h-10 text-green-500"></i>
+                    </div>
+                    <h3 class="text-2xl serif-font mb-4 text-white group-hover:text-green-400 transition-colors">Voxel Growth</h3>
+                    <p class="text-stone-400 text-sm font-light leading-relaxed mb-8">
+                        Product visualizations that adapt and bloom based on user behavior.
+                    </p>
+                    <div class="w-full h-px bg-white/10 group-hover:bg-green-500/50 transition-colors"></div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="wood-glass-card p-12 group reveal-up" style="transition-delay: 300ms;">
+                    <div class="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 transition-opacity">
+                        <i data-lucide="network" class="w-10 h-10 text-blue-500"></i>
+                    </div>
+                    <h3 class="text-2xl serif-font mb-4 text-white group-hover:text-blue-400 transition-colors">Neural Canopy</h3>
+                    <p class="text-stone-400 text-sm font-light leading-relaxed mb-8">
+                        Automated branches nurturing leads from seedling to harvest via CRM.
+                    </p>
+                    <div class="w-full h-px bg-white/10 group-hover:bg-blue-500/50 transition-colors"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HARVEST (Footer CTA) -->
+    <section id="Harvest" class="py-48 relative z-10 text-center">
+        <div class="max-w-4xl mx-auto px-6 text-vignette reveal-up">
+            <h2 class="text-6xl md:text-8xl serif-font mb-8 text-white">
+                Ready to <span class="text-green-500 italic">Bloom?</span>
+            </h2>
+            
+            <p class="text-stone-400 mb-12 tech-font text-sm uppercase tracking-[0.2em]">
+                AiCanFeel Ecosystem V2.0
+            </p>
+
+            <button onclick="startEvolution(this)" class="btn-luxury px-16 py-6 text-sm uppercase tracking-widest font-bold border-amber-500/50 hover:bg-amber-900/20 rounded-sm">
+                Start The Evolution
+            </button>
+            
+            <div class="mt-24 flex justify-center gap-10 text-[10px] text-stone-600 uppercase tracking-widest">
+                <span>Data</span>
+                <span>•</span>
+                <span>Design</span>
+                <span>•</span>
+                <span>Dominance</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- EVOLUTION DELIVERABLES (New Section Triggered by Button) -->
+    <section id="Evolution" class="py-40 relative z-10 bg-black/80 backdrop-blur-md border-t border-green-900/30" style="display:none;">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20 reveal-up">
+                <h2 class="text-5xl md:text-6xl serif-font text-white mb-4">Evolutionary Deliverables</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-green-500 to-transparent mx-auto"></div>
+                <p class="mt-6 text-stone-400 tech-font uppercase tracking-widest text-xs">Partner Capabilities Unlocked</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Deliverable 1 -->
+                <div class="wood-glass-card p-10 reveal-up flex flex-col h-full border-green-500/20 hover:border-green-500/60">
+                    <div class="mb-6"><i data-lucide="layers" class="w-10 h-10 text-green-400"></i></div>
+                    <h3 class="text-2xl serif-font text-white mb-4">Hyper-Real CGI Creative</h3>
+                    <p class="text-stone-400 text-sm leading-relaxed mb-4 flex-grow">
+                        We don't just photograph furniture; we reconstruct it in digital space. Creating impossible, scroll-stopping visuals that transcend physical limitations.
+                    </p>
+                </div>
+
+                <!-- Deliverable 2 -->
+                <div class="wood-glass-card p-10 reveal-up flex flex-col h-full border-green-500/20 hover:border-green-500/60" style="transition-delay: 100ms;">
+                    <div class="mb-6"><i data-lucide="users" class="w-10 h-10 text-green-400"></i></div>
+                    <h3 class="text-2xl serif-font text-white mb-4">High-Intent Lead Engineering</h3>
+                    <p class="text-stone-400 text-sm leading-relaxed mb-4 flex-grow">
+                        Stop chasing clicks. We engineer Meta audiences to deliver actionable leads. A constant stream of qualified buyers directly into your pipeline.
+                    </p>
+                </div>
+
+                <!-- Deliverable 3 -->
+                <div class="wood-glass-card p-10 reveal-up flex flex-col h-full border-amber-500/20 hover:border-amber-500/60" style="transition-delay: 200ms;">
+                    <div class="mb-6"><i data-lucide="trending-up" class="w-10 h-10 text-amber-400"></i></div>
+                    <h3 class="text-2xl serif-font text-white mb-4">~40% Revenue Acceleration</h3>
+                    <p class="text-stone-400 text-sm leading-relaxed mb-4 flex-grow">
+                        Partnership isn't maintenance; it's growth. Our partners see an average of 40% business expansion via our integrated ecosystem.
+                    </p>
+                </div>
+
+                <!-- Deliverable 4 -->
+                <div class="wood-glass-card p-10 reveal-up flex flex-col h-full border-green-500/20 hover:border-green-500/60" style="transition-delay: 300ms;">
+                    <div class="mb-6"><i data-lucide="video" class="w-10 h-10 text-green-400"></i></div>
+                    <h3 class="text-2xl serif-font text-white mb-4">Algorithmic Short-Form Video</h3>
+                    <p class="text-stone-400 text-sm leading-relaxed mb-4 flex-grow">
+                        We create high-impact, short-format videos fusing AI generation with VFX. Built specifically to dominate Reels and Shorts algorithms.
+                    </p>
+                </div>
+
+                <!-- Deliverable 5 -->
+                <div class="wood-glass-card p-10 reveal-up flex flex-col h-full border-green-500/20 hover:border-green-500/60 lg:col-span-2" style="transition-delay: 400ms;">
+                    <div class="mb-6"><i data-lucide="book-open" class="w-10 h-10 text-green-400"></i></div>
+                    <h3 class="text-2xl serif-font text-white mb-4">Immersive Infinite Catalogue</h3>
+                    <p class="text-stone-400 text-sm leading-relaxed mb-4 flex-grow">
+                        Creating a catalogue the world has never seen. We reimagine your inventory as an immersive digital experience, turning standard lists into objects of desire.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-20 reveal-up">
+                <p class="tech-font text-stone-500 text-[10px] uppercase tracking-widest mb-8">End of Transmission</p>
+                <div class="text-white/20 text-4xl">❖</div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        lucide.createIcons();
+
+        // 1. SCROLL ANIMATIONS
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));
+
+        // 2. TRIGGER PULSE LOGIC (Visual feedback)
+        window.triggerPulse = function() {
+            window.dispatchEvent(new Event('tree-pulse'));
+        };
+
+        // 3. TOUCH THE CORE (Scroll to Growth)
+        window.touchTheCore = function(btn) {
+            btn.classList.add('energizing');
+            window.triggerPulse();
+            setTimeout(() => {
+                const section = document.getElementById('Growth');
+                section.scrollIntoView({ behavior: 'smooth' });
+                setTimeout(() => btn.classList.remove('energizing'), 1000);
+            }, 600);
+        }
+
+        // 4. START EVOLUTION (ENERGIZE EFFECT)
+        window.startEvolution = function(btn) {
+            btn.classList.add('energizing');
+            window.triggerPulse();
+            setTimeout(() => {
+                const section = document.getElementById('Evolution');
+                section.style.display = 'block'; 
+                lucide.createIcons();
+                section.scrollIntoView({ behavior: 'smooth' });
+                section.querySelectorAll('.wood-glass-card').forEach((el, index) => {
+                    setTimeout(() => el.classList.add('visible'), index * 100 + 500);
+                });
+                setTimeout(() => btn.classList.remove('energizing'), 1000);
+            }, 600);
+        };
+
+        // 5. OPTIMIZED NEURO-TREE ENGINE (Scoped)
+        (function() {
+            const canvas = document.getElementById('neuro-tree');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let w, h;
+            let time = 0;
+            let scrollY = 0;
+            let mouseX = 0, mouseY = 0;
+            let pulseActive = false;
+
+            window.addEventListener('tree-pulse', () => {
+                pulseActive = true;
+                setTimeout(() => pulseActive = false, 1500);
+            });
+
+            function resize() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            window.addEventListener('mousemove', e => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            window.addEventListener('scroll', () => {
+                scrollY = window.scrollY;
+            });
+
+            function drawBranch(startX, startY, angle, length, depth, width) {
+                if (depth === 0) return;
+
+                const growthMult = 1 + (scrollY * 0.0003); 
+                const endX = startX + Math.cos(angle) * length * growthMult;
+                const endY = startY + Math.sin(angle) * length * growthMult;
+
+                const breathing = Math.sin(time * 0.5 + depth) * 2;
+                const wind = (mouseX - w/2) * 0.0001; 
+                const sway = Math.sin(time + depth * 0.5) * (10 + depth * 2) * wind;
+                
+                const cp1x = startX + Math.cos(angle) * (length / 2) + sway + breathing;
+                const cp1y = startY + Math.sin(angle) * (length / 2) + breathing;
+
+                // OPTIMIZED INTERACTION CHECK (Squared distance)
+                const midX = (startX + endX) / 2 + (cp1x - (startX + endX) / 2) / 2;
+                const midY = (startY + endY) / 2 + (cp1y - (startY + endY) / 2) / 2;
+                const distSq = (mouseX - midX)**2 + (mouseY - midY)**2;
+                const isHovered = distSq < 6400; // 80px radius squared
+
+                let strokeColor;
+                
+                // Color Logic (No Shadow Blur for Performance)
+                if (depth > 8) {
+                    const darkness = 20 + depth * 3;
+                    strokeColor = `rgb(${darkness + 20}, ${darkness}, ${darkness - 10})`;
+                } else if (depth > 4) {
+                    const pulse = pulseActive || isHovered ? 255 : 180;
+                    strokeColor = `rgba(${pulse}, 175, 55, 0.8)`;
+                } else {
+                    const alpha = 0.4 + Math.sin(time * 3) * 0.2;
+                    strokeColor = isHovered ? '#00FF9D' : `rgba(0, 255, 157, ${alpha})`;
+                }
+
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.quadraticCurveTo(cp1x, cp1y, endX, endY);
+                ctx.lineWidth = width + Math.sin(time + depth)*0.5;
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = strokeColor;
+                ctx.stroke();
+
+                // OPTIMIZED PACKET DRAWING (No Shadow Blur)
+                if (isHovered || pulseActive) {
+                    const speed = 2.0; 
+                    const t = (time * speed + depth * 0.3) % 1; 
+                    const mt = 1 - t;
+                    const px = mt*mt*startX + 2*mt*t*cp1x + t*t*endX;
+                    const py = mt*mt*startY + 2*mt*t*cp1y + t*t*endY;
+
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    ctx.arc(px, py, 2, 0, Math.PI*2);
+                    ctx.fill();
+                }
+
+                const subLength = length * 0.75;
+                const subWidth = width * 0.7;
+                const angleVar1 = 0.3 + Math.sin(time * 0.1 + depth) * 0.05;
+                const angleVar2 = 0.3 + Math.cos(time * 0.1 + depth) * 0.05;
+
+                drawBranch(endX, endY, angle - angleVar1, subLength, depth - 1, subWidth);
+                drawBranch(endX, endY, angle + angleVar2, subLength, depth - 1, subWidth);
+                
+                if (depth === 8 || depth === 5) {
+                    drawBranch(endX, endY, angle, subLength * 0.8, depth - 2, subWidth);
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, w, h);
+                time += 0.01;
+                // Reduced depth from 12 to 10 for performance
+                drawBranch(w/2, h + 50, -Math.PI/2, h * 0.20, 10, 22); 
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        })();
+    </script>
+</body>
+</html>
